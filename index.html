@@ -2313,14 +2313,14 @@
     </section>
 
 
-    <!-- CONFIRMA TU ASISTENCIA: PASE PERGAMINO + FORMULARIO GLASS -->
+    <!-- CONFIRMA TU ASISTENCIA: PASE PERGAMINO -->
     <section class="section" id="rsvp">
       <h2 class="section-title reveal">Confirma tu Asistencia</h2>
       <div class="rope-divider" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#E5C168"><polygon points="12,2 14.8,8.8 22,9.3 16.5,14 18.2,21 12,17.2 5.8,21 7.5,14 2,9.3 9.2,8.8" /></svg>
       </div>
 
-      <div class="split-grid" style="align-items: start;">
+      <div style="max-width: 520px; margin: 0 auto;">
         <!-- PASE PERSONALIZADO -->
         <article class="parchment-card reveal">
           <img class="pass-photo" src="IMG/Asistencia.jpg" alt="Pase personalizado de Jesús David" />
@@ -2343,59 +2343,31 @@
           </ul>
           <p style="margin:0;font-size:0.88rem;font-style:italic;color:#5a4332;">Pase único e intransferible</p>
         </article>
+      </div>
+    </section>
 
-        <!-- FORMULARIO RSVP GLASS -->
-        <div class="rsvp-glass-panel reveal delay-1">
-          <div class="animated-headline-wrap">
-            <h3 class="animated-headline">
-              Completa y envía el siguiente formulario.
-              <svg class="double-underline-svg" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M 4,6 Q 200,2 396,6" />
-                <path d="M 16,13 Q 200,9 384,13" />
-              </svg>
-            </h3>
+    <!-- CONFIRMACIÓN POR WHATSAPP -->
+    <section class="section" id="confirmar-whatsapp" aria-label="Confirmación por WhatsApp">
+      <div class="rsvp-glass-panel reveal" style="max-width: 580px; margin: 0 auto;">
+        <div class="animated-headline-wrap">
+          <h3 class="animated-headline">
+            Confirma tu asistencia antes del 15 de enero de 2027
+            <svg class="double-underline-svg" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M 4,6 Q 200,2 396,6" />
+              <path d="M 16,13 Q 200,9 384,13" />
+            </svg>
+          </h3>
+        </div>
+
+        <form id="whatsapp-rsvp-form" novalidate>
+          <div>
+            <label class="rsvp-label" for="dedicatoria-whatsapp">Escribe una dedicatoria para Jesús David:</label>
+            <textarea id="dedicatoria-whatsapp" class="rsvp-textarea" placeholder="¡Muchas felicidades en tus XV años! Nos vemos en la celebración..."></textarea>
           </div>
 
-          <form id="rsvp-form" novalidate>
-            <div class="rsvp-guest-row">
-              <label class="rsvp-label" for="guest-1">Invitado 1</label>
-              <input id="guest-1" class="rsvp-readonly-input" type="text" value="Nicolás Hidalgo" readonly />
-              <div class="rsvp-radios" role="radiogroup" aria-label="Asistencia de Nicolás Hidalgo">
-                <label class="rsvp-radio-pill"><input type="radio" name="g1" value="Adulto" required /> Adulto</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g1" value="Niño" /> Niño</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g1" value="No asistirá" /> Lo siento, no podré asistir.</label>
-              </div>
-            </div>
-
-            <div class="rsvp-guest-row">
-              <label class="rsvp-label" for="guest-2">Invitado 2</label>
-              <input id="guest-2" class="rsvp-readonly-input" type="text" value="Samanta Escamilla" readonly />
-              <div class="rsvp-radios" role="radiogroup" aria-label="Asistencia de Samanta Escamilla">
-                <label class="rsvp-radio-pill"><input type="radio" name="g2" value="Adulto" required /> Adulto</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g2" value="Niño" /> Niño</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g2" value="No asistirá" /> Lo siento, no podré asistir.</label>
-              </div>
-            </div>
-
-            <div class="rsvp-guest-row">
-              <label class="rsvp-label" for="guest-3">Invitado 3</label>
-              <input id="guest-3" class="rsvp-readonly-input" type="text" value="Verónica Hidalgo" readonly />
-              <div class="rsvp-radios" role="radiogroup" aria-label="Asistencia de Verónica Hidalgo">
-                <label class="rsvp-radio-pill"><input type="radio" name="g3" value="Adulto" required /> Adulto</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g3" value="Niño" /> Niño</label>
-                <label class="rsvp-radio-pill"><input type="radio" name="g3" value="No asistirá" /> Lo siento, no podré asistir.</label>
-              </div>
-            </div>
-
-            <div style="margin-top:0.85rem;">
-              <label class="rsvp-label" for="dedicatoria">Escribe una dedicatoria para Jesús David:</label>
-              <textarea id="dedicatoria" class="rsvp-textarea" placeholder="¡Muchas felicidades en tus XV años! Nos vemos en la celebración..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-rsvp-submit">Enviar Confirmación</button>
-            <div id="rsvp-feedback" class="rsvp-feedback" role="status" aria-live="polite"></div>
-          </form>
-        </div>
+          <button type="submit" class="btn-rsvp-submit">Enviar Confirmación</button>
+          <div id="whatsapp-rsvp-feedback" class="rsvp-feedback" role="status" aria-live="polite"></div>
+        </form>
       </div>
     </section>
 
@@ -3316,50 +3288,33 @@
       });
 
       /* ========================
-         9. RSVP FORM (READONLY GUARD + LIVE VALIDATION)
+         9. WHATSAPP RSVP CONFIRMATION
          ======================== */
-      document.querySelectorAll('.rsvp-readonly-input').forEach((input) => {
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' || e.key === 'Delete') e.preventDefault();
+      const whatsappForm = document.getElementById('whatsapp-rsvp-form');
+      const whatsappFeedback = document.getElementById('whatsapp-rsvp-feedback');
+
+      if (whatsappForm) {
+        whatsappForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const noteInput = document.getElementById('dedicatoria-whatsapp');
+          const note = noteInput ? noteInput.value.trim() : '';
+          const message = note
+            ? `¡Hola! Confirmo mi asistencia a los XV años de Jesús David.\n\nDedicatoria: ${note}`
+            : '¡Hola! Confirmo mi asistencia a los XV años de Jesús David. ¡Nos vemos en la celebración!';
+          const waUrl = `https://wa.me/527751632554?text=${encodeURIComponent(message)}`;
+
+          const opened = window.open(waUrl, '_blank', 'noopener,noreferrer');
+          if (!opened) {
+            window.location.href = waUrl;
+          }
+
+          if (whatsappFeedback) {
+            whatsappFeedback.className = 'rsvp-feedback success';
+            whatsappFeedback.textContent = 'Abriendo WhatsApp para enviar tu confirmación.';
+          }
+          showToast('Abriendo WhatsApp...');
         });
-      });
-
-      const rsvpForm = document.getElementById('rsvp-form');
-      const rsvpFeedback = document.getElementById('rsvp-feedback');
-
-      rsvpForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const guests = [
-          { name: 'Nicolás Hidalgo', choice: rsvpForm.querySelector('input[name="g1"]:checked') },
-          { name: 'Samanta Escamilla', choice: rsvpForm.querySelector('input[name="g2"]:checked') },
-          { name: 'Verónica Hidalgo', choice: rsvpForm.querySelector('input[name="g3"]:checked') }
-        ];
-
-        const missing = guests.filter((g) => !g.choice);
-        if (missing.length > 0) {
-          rsvpFeedback.className = 'rsvp-feedback error';
-          rsvpFeedback.textContent = 'Por favor selecciona una opción de asistencia para cada invitado (' + missing.map((m) => m.name).join(', ') + ').';
-          return;
-        }
-
-        const attending = guests.filter((g) => g.choice.value !== 'No asistirá');
-        const note = document.getElementById('dedicatoria').value.trim();
-
-        try {
-          localStorage.setItem('xv_jesus_david_rsvp', JSON.stringify({
-            guests: guests.map((g) => ({ name: g.name, status: g.choice.value })),
-            note
-          }));
-        } catch (err) {
-          // Safe fallback when storage is unavailable
-        }
-
-        rsvpFeedback.className = 'rsvp-feedback success';
-        rsvpFeedback.textContent = attending.length > 0
-          ? `¡Gracias, Familia Hidalgo Escamilla! Quedaron confirmados ${attending.length} de 3 pases. ¡Nos vemos en la celebración!`
-          : 'Hemos registrado su respuesta. ¡Lamentamos que no puedan acompañarnos!';
-        showToast('Confirmación registrada con éxito');
-      });
+      }
 
       /* ========================
          10. FALLING SMALL COWBOY HATS & HORSESHOES

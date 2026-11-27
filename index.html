@@ -1919,6 +1919,9 @@
     </div>
   </div>
 
+  <!-- BACKGROUND AUDIO (CASE-MATCHED FOR GITHUB PAGES) -->
+  <audio id="bg-music" src="AUDIO/musica.mp3" preload="auto" loop playsinline></audio>
+
   <!-- FLOATING GLASSMORPHISM AUDIO PLAYER -->
   <div class="audio-bar">
     <button id="play-music" type="button" aria-pressed="false" title="Luis Miguel - El Viajero" aria-label="Reproducir o detener música de fondo: Luis Miguel - El Viajero">
@@ -2497,9 +2500,13 @@
       'use strict';
 
       /* ========================
-         1. BACKGROUND MUSIC (audio/musica.mp3)
+         1. BACKGROUND MUSIC (AUDIO/musica.mp3)
          ======================== */
-      const bgMusic = new Audio('audio/musica.mp3');
+      const musicCandidates = ['AUDIO/musica.mp3', 'audio/musica.mp3'];
+      let musicCandidateIdx = 0;
+      let userWantsMusic = false;
+
+      const bgMusic = document.getElementById('bg-music') || new Audio(musicCandidates[0]);
       bgMusic.loop = true;
       bgMusic.preload = 'auto';
 
@@ -2512,20 +2519,80 @@
         btnText.textContent = playing ? 'Detener' : 'Reproducir';
       }
 
-      bgMusic.addEventListener('play', () => updateMusicUI(true));
-      bgMusic.addEventListener('pause', () => updateMusicUI(false));
+      function tryNextMusicSource(failedIdx, autoPlayAfterSwitch) {
+        if (failedIdx !== musicCandidateIdx) return false;
+        if (musicCandidateIdx + 1 >= musicCandidates.length) {
+          updateMusicUI(false);
+          if (autoPlayAfterSwitch && typeof showToast === 'function') {
+            showToast('No se pudo cargar AUDIO/musica.mp3');
+          }
+          return false;
+        }
+        musicCandidateIdx += 1;
+        bgMusic.src = musicCandidates[musicCandidateIdx];
+        bgMusic.load();
+        if (autoPlayAfterSwitch) {
+          attemptPlay();
+        }
+        return true;
+      }
 
-      function startMusic() {
-        if (!bgMusic.paused) return;
+      function attemptPlay() {
+        const attemptIdx = musicCandidateIdx;
         const playPromise = bgMusic.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {
+          playPromise.then(() => {
+            updateMusicUI(!bgMusic.paused);
+          }).catch((err) => {
+            if (err && err.name === 'AbortError') return;
+            if (attemptIdx !== musicCandidateIdx) return;
+            const isMediaErr = Boolean(bgMusic.error) || (err && err.name === 'NotSupportedError');
+            if (isMediaErr && tryNextMusicSource(attemptIdx, true)) {
+              return;
+            }
             updateMusicUI(false);
+            if (err && err.name === 'NotAllowedError' && typeof showToast === 'function') {
+              showToast('Toca "Reproducir" para activar la música');
+            } else if (isMediaErr && typeof showToast === 'function') {
+              showToast('No se pudo cargar AUDIO/musica.mp3');
+            }
           });
         }
       }
 
+      bgMusic.addEventListener('error', () => {
+        tryNextMusicSource(musicCandidateIdx, userWantsMusic);
+      });
+
+      bgMusic.addEventListener('play', () => updateMusicUI(true));
+      bgMusic.addEventListener('playing', () => updateMusicUI(true));
+      bgMusic.addEventListener('pause', () => updateMusicUI(false));
+      bgMusic.addEventListener('ended', () => updateMusicUI(false));
+
+      if (bgMusic.error || bgMusic.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+        tryNextMusicSource(musicCandidateIdx, false);
+      }
+
+      function startMusic() {
+        userWantsMusic = true;
+        if (!bgMusic.paused) {
+          updateMusicUI(true);
+          return;
+        }
+        if (bgMusic.error || bgMusic.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+          if (!tryNextMusicSource(musicCandidateIdx, true)) {
+            musicCandidateIdx = 0;
+            bgMusic.src = musicCandidates[0];
+            bgMusic.load();
+            attemptPlay();
+          }
+          return;
+        }
+        attemptPlay();
+      }
+
       function stopMusic() {
+        userWantsMusic = false;
         bgMusic.pause();
       }
 
